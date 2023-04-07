@@ -12,11 +12,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	rules, err := d.ListRules()
-	if err != nil {
-		log.Fatal(err)
-	}
-	md, err := d.MarkdownString(rules)
+	md, err := d.MarkdownString()
 	if err != nil {
 		log.Fatal(err)
 	}

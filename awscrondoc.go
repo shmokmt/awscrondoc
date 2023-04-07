@@ -29,7 +29,24 @@ func New() (*AwsCronDoc, error) {
 	}, nil
 }
 
-func (a *AwsCronDoc) ListRules() ([]*eventbridge.Rule, error) {
+func (a *AwsCronDoc) MarkdownString() (string, error) {
+	rules, err := a.listRules()
+	if err != nil {
+		return "", err
+	}
+	funcMap := template.FuncMap{
+		"isCronExpression": isCronExpression,
+		"latestSchedules":  latestSchedules,
+	}
+	t := template.Must(template.New("doc").Funcs(funcMap).Parse(tmpl))
+	var buf bytes.Buffer
+	if err := t.Execute(&buf, rules); err != nil {
+		return "", err
+	}
+	return buf.String(), nil
+}
+
+func (a *AwsCronDoc) listRules() ([]*eventbridge.Rule, error) {
 	var nextToken *string
 	rules := make([]*eventbridge.Rule, 0)
 	for {
@@ -51,18 +68,24 @@ func (a *AwsCronDoc) ListRules() ([]*eventbridge.Rule, error) {
 	return rules, nil
 }
 
-func (a *AwsCronDoc) MarkdownString(rules []*eventbridge.Rule) (string, error) {
-	funcMap := template.FuncMap{
-		"isCronExpression": isCronExpression,
-		"latestSchedules":  latestSchedules,
-	}
-	t := template.Must(template.New("doc").Funcs(funcMap).Parse(tmpl))
-	var buf bytes.Buffer
-	if err := t.Execute(&buf, rules); err != nil {
-		return "", err
-	}
-	return buf.String(), nil
-}
+const tmpl = `
+{{ range $i, $r := . }}
+	{{- if and (ne $r.ScheduleExpression nil) (isCronExpression $r.ScheduleExpression) }}
+## {{ $r.Name }}
+
+{{ if ne $r.Description nil }}* Description: {{ $r.Description }}{{ end }}
+{{- if ne $r.ScheduleExpression nil }}
+* CronExperssion: {{ $r.ScheduleExpression }}
+* Example:
+  {{- range $i, $t := $r.ScheduleExpression | latestSchedules }} 
+  * {{ $t }}
+  {{- end }}
+* State: {{ $r.State }}
+{{- end }}
+
+	{{- end }}
+{{ end }}
+`
 
 func latestSchedules(exp string) []time.Time {
 	cp, _ := cronplan.Parse(trimCronBracket(exp))
@@ -83,22 +106,3 @@ func trimCronBracket(exp string) string {
 func isCronExpression(exp string) bool {
 	return strings.HasPrefix(exp, "cron")
 }
-
-const tmpl = `
-{{ range $i, $r := . }}
-	{{- if and (ne $r.ScheduleExpression nil) (isCronExpression $r.ScheduleExpression) }}
-## {{ $r.Name }}
-
-{{ if ne $r.Description nil }}* Description: {{ $r.Description }}{{ end }}
-{{- if ne $r.ScheduleExpression nil }}
-* CronExperssion: {{ $r.ScheduleExpression }}
-* Example:
-  {{- range $i, $t := $r.ScheduleExpression | latestSchedules }} 
-  * {{ $t }}
-  {{- end }}
-* State: {{ $r.State }}
-{{- end }}
-
-	{{- end }}
-{{ end }}
-`
