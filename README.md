@@ -6,7 +6,7 @@ A tool to list up cron expressions registered in Amazon EventBridge for the comp
 
 ### Library
 
-````
+```
 go get github.com/shmokmt/awscrondoc@latest
 ```
 
@@ -15,7 +15,6 @@ go get github.com/shmokmt/awscrondoc@latest
 ```
 go install github.com/shmokmt/awscrondoc/cmd/awscrondoc@latest
 ```
-
 
 ## Usage
 
@@ -42,7 +41,7 @@ func main() {
 	}
 	fmt.Println(md)
 }
-````
+```
 
 ### CLI
 
