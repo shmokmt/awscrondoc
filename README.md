@@ -2,7 +2,24 @@
 
 A tool to list up cron expressions registered in Amazon EventBridge for the company's internal wiki.
 
+## Installation
+
+### Library
+
+````
+go get github.com/shmokmt/awscrondoc@latest
+```
+
+### CLI
+
+```
+go install github.com/shmokmt/awscrondoc/cmd/awscrondoc@latest
+```
+
+
 ## Usage
+
+### Library
 
 ```go
 package main
@@ -25,9 +42,9 @@ func main() {
 	}
 	fmt.Println(md)
 }
-```
+````
 
-or
+### CLI
 
 ```
 awscrondoc
