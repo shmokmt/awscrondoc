@@ -16,6 +16,23 @@ go get github.com/shmokmt/awscrondoc@latest
 go install github.com/shmokmt/awscrondoc/cmd/awscrondoc@latest
 ```
 
+## Permissions
+
+It Requires the following minimum set of permissions:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["events:ListRules"],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
 ## Usage
 
 ### Library
