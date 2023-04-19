@@ -1,5 +1,7 @@
 # awscrondoc
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/shmokmt/awscrondoc.svg)](https://pkg.go.dev/github.com/shmokmt/awscrondoc)
+
 A tool to list up cron expressions registered in Amazon EventBridge for the company's internal wiki.
 
 ## Installation
