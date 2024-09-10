@@ -2,7 +2,10 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/shmokmt/awscrondoc.svg)](https://pkg.go.dev/github.com/shmokmt/awscrondoc)
 
-A tool to list up cron expressions registered in Amazon EventBridge for the company's internal wiki.
+A tool to list up cron expressions registered in following AWS services for the company's internal wiki.
+
+- EventBridge Rule
+- Glue Trigger
 
 ## Installation
 
@@ -29,6 +32,11 @@ It Requires the following minimum set of permissions:
     {
       "Effect": "Allow",
       "Action": ["events:ListRules"],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["glue:ListTriggers", "glue:GetTrigger"],
       "Resource": "*"
     }
   ]

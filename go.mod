@@ -8,7 +8,7 @@ require github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.17 // indirect
 
 require (
 	github.com/alecthomas/participle/v2 v2.1.0 // indirect
-	github.com/aws/aws-sdk-go-v2 v1.30.5 // indirect
+	github.com/aws/aws-sdk-go-v2 v1.30.5
 	github.com/aws/aws-sdk-go-v2/config v1.27.33
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.32 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.13 // indirect
