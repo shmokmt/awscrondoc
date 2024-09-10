@@ -9,13 +9,14 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/eventbridge"
-	"github.com/aws/aws-sdk-go-v2/service/eventbridge/types"
+	etypes "github.com/aws/aws-sdk-go-v2/service/eventbridge/types"
+	"github.com/aws/aws-sdk-go-v2/service/glue"
 	"github.com/winebarrel/cronplan"
 )
 
 type AwsCronDoc struct {
 	eb *eventbridge.Client
-	// g  *glue.Client
+	g  *glue.Client
 }
 
 func New() (*AwsCronDoc, error) {
@@ -24,11 +25,10 @@ func New() (*AwsCronDoc, error) {
 		return nil, err
 	}
 	eb := eventbridge.NewFromConfig(cfg)
-	// TODO: Support for Glue Client
-	// g := glue.NewFromConfig(cfg)
+	g := glue.NewFromConfig(cfg)
 	return &AwsCronDoc{
 		eb: eb,
-		// g:  g,
+		g:  g,
 	}, nil
 }
 
@@ -41,7 +41,7 @@ func (a *AwsCronDoc) MarkdownString() (string, error) {
 		"isCronExpression": isCronExpression,
 		"latestSchedules":  latestSchedules,
 	}
-	t := template.Must(template.New("doc").Funcs(funcMap).Parse(tmpl))
+	t := template.Must(template.New("eventbridge").Funcs(funcMap).Parse(tmpl))
 	var buf bytes.Buffer
 	if err := t.Execute(&buf, rules); err != nil {
 		return "", err
@@ -49,9 +49,9 @@ func (a *AwsCronDoc) MarkdownString() (string, error) {
 	return buf.String(), nil
 }
 
-func (a *AwsCronDoc) listRules() ([]*types.Rule, error) {
+func (a *AwsCronDoc) listRules() ([]*etypes.Rule, error) {
 	var nextToken *string
-	rules := make([]*types.Rule, 0)
+	rules := make([]*etypes.Rule, 0)
 	for {
 		output, err := a.eb.ListRules(context.TODO(),
 			&eventbridge.ListRulesInput{
