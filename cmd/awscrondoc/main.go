@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/shmokmt/awscrondoc"
@@ -12,9 +11,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	md, err := d.MarkdownString()
+	_, err = d.MarkdownString()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(md)
+	// fmt.Println(md)
 }
