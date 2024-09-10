@@ -2,30 +2,33 @@ package awscrondoc
 
 import (
 	"bytes"
+	"context"
 	"strings"
 	"text/template"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/eventbridge"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/eventbridge"
+	"github.com/aws/aws-sdk-go-v2/service/eventbridge/types"
 	"github.com/winebarrel/cronplan"
 )
 
 type AwsCronDoc struct {
-	svc *eventbridge.EventBridge
+	eb *eventbridge.Client
+	// g  *glue.Client
 }
 
 func New() (*AwsCronDoc, error) {
-	sessOpts := session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}
-	sess, err := session.NewSessionWithOptions(sessOpts)
+	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return nil, err
 	}
-	svc := eventbridge.New(sess)
+	eb := eventbridge.NewFromConfig(cfg)
+	// TODO: Support for Glue Client
+	// g := glue.NewFromConfig(cfg)
 	return &AwsCronDoc{
-		svc: svc,
+		eb: eb,
+		// g:  g,
 	}, nil
 }
 
@@ -46,23 +49,24 @@ func (a *AwsCronDoc) MarkdownString() (string, error) {
 	return buf.String(), nil
 }
 
-func (a *AwsCronDoc) listRules() ([]*eventbridge.Rule, error) {
+func (a *AwsCronDoc) listRules() ([]*types.Rule, error) {
 	var nextToken *string
-	rules := make([]*eventbridge.Rule, 0)
+	rules := make([]*types.Rule, 0)
 	for {
-		resp, err := a.svc.ListRules(&eventbridge.ListRulesInput{
-			NextToken: nextToken,
-		})
+		output, err := a.eb.ListRules(context.TODO(),
+			&eventbridge.ListRulesInput{
+				NextToken: nextToken,
+			})
 		if err != nil {
 			return nil, err
 		}
-		for _, r := range resp.Rules {
-			rules = append(rules, r)
+		for _, r := range output.Rules {
+			rules = append(rules, &r)
 		}
-		if resp.NextToken == nil {
+		if output.NextToken == nil {
 			break
 		}
-		*nextToken = *resp.NextToken
+		*nextToken = *output.NextToken
 
 	}
 	return rules, nil
@@ -77,7 +81,7 @@ const tmpl = `
 {{- if ne $r.ScheduleExpression nil }}
 * CronExperssion: {{ $r.ScheduleExpression }}
 * Example:
-  {{- range $i, $t := $r.ScheduleExpression | latestSchedules }} 
+  {{- range $i, $t := $r.ScheduleExpression | latestSchedules }}
   * {{ $t }}
   {{- end }}
 * State: {{ $r.State }}
