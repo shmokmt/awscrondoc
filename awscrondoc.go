@@ -49,24 +49,16 @@ func (a *AwsCronDoc) MarkdownString() (string, error) {
 	if err := eventbridgeTemplate.Execute(&buf, rules); err != nil {
 		return "", err
 	}
-	glueSchedules, err := a.GetCrawlers()
-	// debug print
-	for _, s := range glueSchedules {
-		fmt.Printf("Name: %s, Description: %s, ScheduleExpression: %s, ScheduleState: %s\n",
-			*s.Name,
-			*s.Description,
-			*s.ScheduleExpression,
-			s.ScheduleState)
-	}
+	glueTriggerSchedules, err := a.ListGlueTrigger()
 	if err != nil {
 		return "", err
 	}
-	glueTemplate := template.Must(template.New("glue").Funcs(template.FuncMap{
+	glueTriggerTemplate := template.Must(template.New("glueTrigger").Funcs(template.FuncMap{
 		"isCronExpression": isCronExpression,
 		"latestSchedules":  latestSchedules,
-	}).Parse(glueTmpl))
+	}).Parse(glueTriggerTmpl))
 	var debugBuf bytes.Buffer
-	if err := glueTemplate.Execute(&debugBuf, glueSchedules); err != nil {
+	if err := glueTriggerTemplate.Execute(&debugBuf, glueTriggerSchedules); err != nil {
 		return "", err
 	}
 	fmt.Println(debugBuf.String())
@@ -122,6 +114,47 @@ type GlueCrawlerSchedule struct {
 	ScheduleState      string
 }
 
+type GlueTriggerSchedule struct {
+	Name               *string
+	WorkflowName       *string
+	ScheduleExpression *string
+	ScheduleState      string
+}
+
+func (a *AwsCronDoc) ListGlueTrigger() ([]*GlueTriggerSchedule, error) {
+	var nextToken *string
+	triggerNames := make([]string, 0)
+	for {
+		output, err := a.g.ListTriggers(context.TODO(),
+			&glue.ListTriggersInput{
+				NextToken: nextToken,
+			})
+		if err != nil {
+			return nil, err
+		}
+		if output.NextToken == nil {
+			break
+		}
+		*nextToken = *output.NextToken
+		triggerNames = append(triggerNames, output.TriggerNames...)
+	}
+	glueTriggerSchedules := make([]*GlueTriggerSchedule, 0)
+	for _, triggerName := range triggerNames {
+		output, err := a.g.GetTrigger(context.TODO(), &glue.GetTriggerInput{
+			Name: &triggerName,
+		})
+		if err != nil {
+			return nil, err
+		}
+		glueTriggerSchedules = append(glueTriggerSchedules, &GlueTriggerSchedule{
+			Name:               output.Trigger.Name,
+			ScheduleExpression: output.Trigger.Schedule,
+			ScheduleState:      string(output.Trigger.State),
+		})
+	}
+	return glueTriggerSchedules, nil
+}
+
 func (a *AwsCronDoc) GetCrawlers() ([]*GlueCrawlerSchedule, error) {
 	var nextToken *string
 	crawlers := make([]types.Crawler, 0)
@@ -152,7 +185,27 @@ func (a *AwsCronDoc) GetCrawlers() ([]*GlueCrawlerSchedule, error) {
 	return glueCrawlerSchedules, nil
 }
 
-const glueTmpl = `
+const glueTriggerTmpl = `
+# Glue Trigger Schedules
+{{ range $i, $r := . }}
+	{{- if and (ne $r.ScheduleExpression nil) (isCronExpression $r.ScheduleExpression) }}
+{{- if ne $r.Name nil}}## $r.Name }}{{ end}}
+
+{{ if ne $r.WorkflowName nil }}* WorkflowName: {{ $r.WorkflowName }}{{ end }}
+{{- if ne $r.ScheduleExpression nil }}
+* CronExperssion: {{ $r.ScheduleExpression }}
+* Example:
+  {{- range $i, $t := $r.ScheduleExpression | latestSchedules }}
+  * {{ $t }}
+  {{- end }}
+* State: {{ $r.ScheduleState }}
+{{- end }}
+
+	{{- end }}
+{{ end }}
+`
+
+const glueCrawlerTmpl = `
 # Glue Crawler Schedules
 {{ range $i, $r := . }}
 	{{- if and (ne $r.ScheduleExpression nil) (isCronExpression $r.ScheduleExpression) }}
