@@ -2,7 +2,7 @@ module github.com/shmokmt/awscrondoc
 
 go 1.23.1
 
-require github.com/winebarrel/cronplan v1.10.4
+require github.com/winebarrel/cronplan v1.10.5
 
 require github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.31 // indirect
 
