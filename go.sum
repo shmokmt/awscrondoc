@@ -38,5 +38,5 @@ github.com/aws/smithy-go v1.22.2 h1:6D9hW43xKFrRx/tXXfAlIZc4JI+yQe6snnWcQyxSyLQ=
 github.com/aws/smithy-go v1.22.2/go.mod h1:irrKGvNn1InZwb2d7fkIRNucdfwR8R+Ts3wxYa/cJHg=
 github.com/hexops/gotextdiff v1.0.3 h1:gitA9+qJrrTCsiCl7+kh75nPqQt1cx4ZkudSTLoUqJM=
 github.com/hexops/gotextdiff v1.0.3/go.mod h1:pSWU5MAI3yDq+fZBTazCSJysOMbxWL1BSow5/V2vxeg=
-github.com/winebarrel/cronplan v1.10.4 h1:lpDvd+gihqGEi7aYcvmJ1nyFVCXDULMk8XPvUQtcPyQ=
-github.com/winebarrel/cronplan v1.10.4/go.mod h1:ZGEHrRZU3YNI22nDLTr9obcRMX3uBYPektCQoCmFmaY=
+github.com/winebarrel/cronplan v1.10.5 h1:+YDDxV1KSG2B1zbVfUCUeH3ARHu3JAGgzCtai/mLTWg=
+github.com/winebarrel/cronplan v1.10.5/go.mod h1:geyNgf0hhTuFfLx9KH3Y2Y2fO/Ar9r7OkAljaVUZlS8=
