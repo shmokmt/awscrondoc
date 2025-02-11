@@ -18,10 +18,10 @@ github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.32 h1:m1GeXHVMJsRsUAqG6H
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.32/go.mod h1:IitoQxGfaKdVLNg0hD8/DXmAqNy0H4K2H2Sf91ti8sI=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.8.2 h1:Pg9URiobXy85kgFev3og2CuOZ8JZUBENF+dcgWBaYNk=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.8.2/go.mod h1:FbtygfRFze9usAadmnGJNc8KsP346kEe+y2/oyhGAGc=
-github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.31 h1:8IwBjuLdqIO1dGB+dZ9zJEl8wzY3bVYxcs0Xyu/Lsc0=
-github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.31/go.mod h1:8tMBcuVjL4kP/ECEIWTCWtwV2kj6+ouEKl4cqR4iWLw=
-github.com/aws/aws-sdk-go-v2/service/eventbridge v1.36.10 h1:bvAtRf7hyqWDYm02VXLXPWPhpkexhQTDezbLWdQDE+4=
-github.com/aws/aws-sdk-go-v2/service/eventbridge v1.36.10/go.mod h1:ELvQticpudsExO3Co4Ek0l1AoDCXo1TMNutCTvp4FEk=
+github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.32 h1:OIHj/nAhVzIXGzbAE+4XmZ8FPvro3THr6NlqErJc3wY=
+github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.32/go.mod h1:LiBEsDo34OJXqdDlRGsilhlIiXR7DL+6Cx2f4p1EgzI=
+github.com/aws/aws-sdk-go-v2/service/eventbridge v1.36.11 h1:mea+RUbrBZ9FjKQUrmSfL4VrNXXfvrfPU8ayX9J02rM=
+github.com/aws/aws-sdk-go-v2/service/eventbridge v1.36.11/go.mod h1:p706eBMplMoLl+lRjFSeXQTa8/HwjLjHUYKvNNY0meg=
 github.com/aws/aws-sdk-go-v2/service/glue v1.105.9 h1:GzlbilXxPKYpGiPgy7T9CVj0OkllW7LA+aptBRYFFo8=
 github.com/aws/aws-sdk-go-v2/service/glue v1.105.9/go.mod h1:W6FO+0G0oJ30CUrwKBrT/UTCD1hm4tZNbiaGF/FGTZI=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.2 h1:D4oz8/CzT9bAEYtVhSBmFj2dNOtaHOtMKc2vHBwYizA=
