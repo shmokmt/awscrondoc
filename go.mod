@@ -4,7 +4,7 @@ go 1.23.1
 
 require github.com/winebarrel/cronplan v1.10.5
 
-require github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.35 // indirect
+require github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.36 // indirect
 
 require (
 	github.com/alecthomas/participle/v2 v2.1.1 // indirect
@@ -15,7 +15,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.36 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.36 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
-	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.39.2
+	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.39.3
 	github.com/aws/aws-sdk-go-v2/service/glue v1.115.0
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.16 // indirect
