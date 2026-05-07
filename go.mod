@@ -18,7 +18,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.22 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.22 // indirect
 	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.45.24
-	github.com/aws/aws-sdk-go-v2/service/glue v1.139.3
+	github.com/aws/aws-sdk-go-v2/service/glue v1.140.0
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.22 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.30.16 // indirect
