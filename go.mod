@@ -17,8 +17,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.31 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.31 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.31 // indirect
-	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.47.1
-	github.com/aws/aws-sdk-go-v2/service/glue v1.148.1
+	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.48.0
+	github.com/aws/aws-sdk-go-v2/service/glue v1.150.0
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.13 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.31 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.33.0 // indirect
